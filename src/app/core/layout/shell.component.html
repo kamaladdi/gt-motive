@@ -1,0 +1,25 @@
+<div class="app-shell">
+  <mat-toolbar color="primary" class="toolbar">
+    @if (showBackButton()) {
+      <button
+        mat-icon-button
+        (click)="onBackClick()"
+        aria-label="Go back"
+        class="back-button"
+      >
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    }
+
+    <span class="app-title">GT-Motive</span>
+
+    @if (pageTitle()) {
+      <span class="separator">|</span>
+      <span class="page-title">{{ pageTitle() }}</span>
+    }
+  </mat-toolbar>
+
+  <main class="main-content">
+    <router-outlet />
+  </main>
+</div>
