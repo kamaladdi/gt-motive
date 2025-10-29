@@ -1,0 +1,29 @@
+<div class="brand-detail-page">
+  @if (vehicleTypesLoading() || vehicleModelsLoading()) {
+    <mat-progress-bar mode="indeterminate" class="progress-bar" />
+  }
+
+  <div class="content">
+    @if (makeName()) {
+      <div class="header">
+        <h1 class="manufacturer-name">{{ makeName() }}</h1>
+        <p class="description">
+          Explore vehicle types and models manufactured by {{ makeName() }}
+        </p>
+      </div>
+
+      <div class="details-grid">
+        <div class="types-section">
+          <app-vehicle-types-list
+            [vehicleTypes]="vehicleTypes()"
+            [loading]="vehicleTypesLoading()"
+          />
+        </div>
+
+        <div class="models-section">
+          <app-models-list [models]="vehicleModels()" [loading]="vehicleModelsLoading()" />
+        </div>
+      </div>
+    }
+  </div>
+</div>
