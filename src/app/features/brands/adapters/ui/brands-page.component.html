@@ -1,0 +1,23 @@
+<div class="brands-page">
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate" class="progress-bar" />
+  }
+
+  <div class="content">
+    <div class="search-container">
+      <app-brand-search (searchTermChange)="onSearchTermChange($event)" />
+    </div>
+
+    <div class="stats">
+      <span class="stat-text">
+        Showing {{ filteredManufacturers().length }} of {{ totalManufacturers() }}
+        manufacturers
+      </span>
+    </div>
+
+    <app-brands-list
+      [manufacturers]="filteredManufacturers()"
+      (brandSelected)="onBrandSelected($event)"
+    />
+  </div>
+</div>
