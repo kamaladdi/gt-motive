@@ -1,0 +1,30 @@
+<mat-card class="vehicle-types-card">
+  <mat-card-header>
+    <mat-card-title>Vehicle Types</mat-card-title>
+    <mat-card-subtitle>
+      {{ uniqueTypesCount() }}
+      {{ uniqueTypesCount() === 1 ? 'type' : 'types' }} available
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    @if (loading()) {
+      <div class="loading-state">
+        <p>Loading vehicle types...</p>
+      </div>
+    } @else if (groupedVehicleTypes().length === 0) {
+      <div class="empty-state">
+        <p class="empty-message">No vehicle types found for this manufacturer.</p>
+      </div>
+    } @else {
+      <mat-chip-set aria-label="Vehicle types">
+        @for (type of groupedVehicleTypes(); track type.VehicleTypeId) {
+          <mat-chip class="vehicle-type-chip">
+            <span class="type-name">{{ type.VehicleTypeName }}</span>
+            <span class="type-count">({{ type.count }})</span>
+          </mat-chip>
+        }
+      </mat-chip-set>
+    }
+  </mat-card-content>
+</mat-card>

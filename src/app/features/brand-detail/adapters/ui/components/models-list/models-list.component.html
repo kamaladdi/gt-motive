@@ -1,0 +1,45 @@
+<mat-card class="models-card">
+  <mat-card-header>
+    <mat-card-title>Vehicle Models</mat-card-title>
+    <mat-card-subtitle>
+      {{ models().length }}
+      {{ models().length === 1 ? 'model' : 'models' }} available
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    @if (loading()) {
+      <div class="loading-state">
+        <p>Loading vehicle models...</p>
+      </div>
+    } @else if (models().length === 0) {
+      <div class="empty-state">
+        <p class="empty-message">No vehicle models found for this manufacturer.</p>
+      </div>
+    } @else {
+      @if (useVirtualScroll()) {
+        <!-- Virtual scroll for large lists (>50 items) -->
+        <cdk-virtual-scroll-viewport itemSize="48" class="models-viewport">
+          <mat-list class="models-list">
+            @for (model of models(); track model.Model_ID) {
+              <mat-list-item class="model-item">
+                <mat-icon matListItemIcon>directions_car</mat-icon>
+                <div matListItemTitle class="model-name">{{ model.Model_Name }}</div>
+              </mat-list-item>
+            }
+          </mat-list>
+        </cdk-virtual-scroll-viewport>
+      } @else {
+        <!-- Regular list for smaller lists (<=50 items) -->
+        <mat-list class="models-list">
+          @for (model of models(); track model.Model_ID) {
+            <mat-list-item class="model-item">
+              <mat-icon matListItemIcon>directions_car</mat-icon>
+              <div matListItemTitle class="model-name">{{ model.Model_Name }}</div>
+            </mat-list-item>
+          }
+        </mat-list>
+      }
+    }
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,67 @@
+.models-card {
+  margin-bottom: 24px;
+}
+
+mat-card-header {
+  margin-bottom: 16px;
+}
+
+mat-card-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+mat-card-subtitle {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.6);
+  margin-top: 4px;
+}
+
+.models-list {
+  padding: 0;
+}
+
+.model-item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  min-height: 48px;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  mat-icon {
+    color: rgba(0, 0, 0, 0.54);
+    margin-right: 16px;
+  }
+}
+
+.model-name {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.87);
+  font-weight: 400;
+}
+
+.models-viewport {
+  height: 400px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+}
+
+.empty-state,
+.loading-state {
+  padding: 32px 16px;
+  text-align: center;
+}
+
+.empty-message {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 14px;
+  margin: 0;
+}
+
+.loading-state p {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 14px;
+  margin: 0;
+}
