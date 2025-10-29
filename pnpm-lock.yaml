@@ -41,6 +41,9 @@ importers:
       '@ngrx/entity':
         specifier: ^20.1.0
         version: 20.1.0(@angular/core@20.3.7(@angular/compiler@20.3.7)(rxjs@7.8.2))(@ngrx/store@20.1.0(@angular/core@20.3.7(@angular/compiler@20.3.7)(rxjs@7.8.2))(rxjs@7.8.2))(rxjs@7.8.2)
+      '@ngrx/operators':
+        specifier: ^20.1.0
+        version: 20.1.0(rxjs@7.8.2)
       '@ngrx/store':
         specifier: ^20.1.0
         version: 20.1.0(@angular/core@20.3.7(@angular/compiler@20.3.7)(rxjs@7.8.2))(rxjs@7.8.2)
@@ -918,6 +921,11 @@ packages:
       '@angular/core': ^20.0.0
       '@ngrx/store': 20.1.0
       rxjs: ^6.5.3 || ^7.5.0
+
+  '@ngrx/operators@20.1.0':
+    resolution: {integrity: sha512-soNrLfWaAjV3BJnZ2gYOQ2jLniGMQB444Jeiu5Vs1RCHQ9KEB40OrznJkynUOMUIie4I19cHXb/O/FVaDIPIRQ==}
+    peerDependencies:
+      rxjs: ^6.5.3 || ^7.4.0
 
   '@ngrx/store-devtools@20.1.0':
     resolution: {integrity: sha512-4N6X/uAfjiCFcuauX2gG+6TnDAuixrfMfUVebLYvifLkrDmqDO8lbeH+Lhk3EVGnpUih4yJiCaU437awVyKckw==}
@@ -3679,6 +3687,11 @@ snapshots:
     dependencies:
       '@angular/core': 20.3.7(@angular/compiler@20.3.7)(rxjs@7.8.2)
       '@ngrx/store': 20.1.0(@angular/core@20.3.7(@angular/compiler@20.3.7)(rxjs@7.8.2))(rxjs@7.8.2)
+      rxjs: 7.8.2
+      tslib: 2.8.1
+
+  '@ngrx/operators@20.1.0(rxjs@7.8.2)':
+    dependencies:
       rxjs: 7.8.2
       tslib: 2.8.1
 
