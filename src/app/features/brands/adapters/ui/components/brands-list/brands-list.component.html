@@ -1,0 +1,27 @@
+<div class="brands-list-container">
+  @if (manufacturers().length === 0) {
+    <div class="empty-state">
+      <mat-icon class="empty-icon">search_off</mat-icon>
+      <p class="empty-message">No manufacturers found</p>
+      <p class="empty-hint">Try adjusting your search criteria</p>
+    </div>
+  } @else {
+    <cdk-virtual-scroll-viewport
+      [itemSize]="80"
+      class="viewport"
+    >
+      <mat-card
+        *cdkVirtualFor="let manufacturer of manufacturers()"
+        class="manufacturer-card"
+        (click)="selectBrand(manufacturer)"
+      >
+        <mat-card-content class="card-content">
+          <div class="manufacturer-info">
+            <h3 class="manufacturer-name">{{ manufacturer.Make_Name }}</h3>
+          </div>
+          <mat-icon class="chevron">chevron_right</mat-icon>
+        </mat-card-content>
+      </mat-card>
+    </cdk-virtual-scroll-viewport>
+  }
+</div>

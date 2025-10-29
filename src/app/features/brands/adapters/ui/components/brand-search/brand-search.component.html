@@ -1,0 +1,21 @@
+<mat-form-field class="search-field" appearance="outline">
+  <mat-label>Search manufacturers</mat-label>
+  <input
+    matInput
+    type="text"
+    [formControl]="searchControl"
+    placeholder="Search by name or country..."
+    autocomplete="off"
+  />
+  <mat-icon matPrefix>search</mat-icon>
+  @if (searchControl.value) {
+    <button
+      mat-icon-button
+      matSuffix
+      (click)="clearSearch()"
+      aria-label="Clear search"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  }
+</mat-form-field>
