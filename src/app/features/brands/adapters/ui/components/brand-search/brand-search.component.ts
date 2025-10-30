@@ -1,11 +1,12 @@
-import { Component, output, OnInit, OnDestroy, ChangeDetectionStrategy, signal, inject } from '@angular/core';
+import {Component, output, OnInit, ChangeDetectionStrategy, signal, inject, DestroyRef} from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { debounceTime, distinctUntilChanged, Subject, takeUntil, filter } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
 import { SearchManufacturersUseCase } from '../../../../application/use-cases/search-manufacturers.use-case';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 /** Search input with debounce */
 @Component({
@@ -21,19 +22,19 @@ import { SearchManufacturersUseCase } from '../../../../application/use-cases/se
   styleUrl: './brand-search.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BrandSearchComponent implements OnInit, OnDestroy {
+export class BrandSearchComponent implements OnInit {
   private readonly searchUseCase = inject(SearchManufacturersUseCase);
+  private readonly dRef = inject(DestroyRef);
   searchTermChange = output<string>();
 
   protected readonly searchControl = new FormControl<string>('', { nonNullable: true });
   protected readonly hasSearch = signal(false);
-  private readonly destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     // Restore search term from state
     this.searchUseCase.getSearchTerm()
       .pipe(
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.dRef),
         filter(term => term !== this.searchControl.value)
       )
       .subscribe(term => {
@@ -46,17 +47,12 @@ export class BrandSearchComponent implements OnInit, OnDestroy {
       .pipe(
         debounceTime(300),
         distinctUntilChanged(),
-        takeUntil(this.destroy$)
+        takeUntilDestroyed(this.dRef)
       )
       .subscribe((searchTerm) => {
         this.hasSearch.set(!!searchTerm);
         this.searchTermChange.emit(searchTerm);
       });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   protected clearSearch(): void {
