@@ -2,6 +2,8 @@
 
 Angular application to explore vehicle manufacturers and models, built with hexagonal architecture and the latest Angular 20 features.
 
+
+
 ## Main Features
 
 - Vehicle manufacturers exploration
@@ -34,6 +36,8 @@ This application meets all the specified requirements:
 ## Hexagonal Architecture (Ports & Adapters)
 
 This project follows the hexagonal architecture pattern to separate concerns and make the code more maintainable and testable.
+
+![Hexagonal Architecture Diagram](docs/exagonal.jpg)
 
 ## Project Structure
 
