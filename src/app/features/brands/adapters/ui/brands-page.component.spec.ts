@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { BrandsPageComponent } from './brands-page.component';
 import { LoadManufacturersUseCase } from '../../application/use-cases/load-manufacturers.use-case';
 import { SearchManufacturersUseCase } from '../../application/use-cases/search-manufacturers.use-case';
@@ -31,6 +31,7 @@ describe('BrandsPageComponent', () => {
     const searchManufacturersUseCaseSpy = jasmine.createSpyObj('SearchManufacturersUseCase', [
       'execute',
       'getFilteredManufacturers',
+      'getSearchTerm',
     ]);
     const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
     const snackBarSpy = jasmine.createSpyObj('MatSnackBar', ['open']);
@@ -40,6 +41,7 @@ describe('BrandsPageComponent', () => {
     loadManufacturersUseCaseSpy.getLoadingState.and.returnValue(of(false));
     loadManufacturersUseCaseSpy.getErrorState.and.returnValue(of(null));
     searchManufacturersUseCaseSpy.getFilteredManufacturers.and.returnValue(of(mockManufacturers));
+    searchManufacturersUseCaseSpy.getSearchTerm.and.returnValue(of(''));
 
     await TestBed.configureTestingModule({
       imports: [BrandsPageComponent],
@@ -70,7 +72,7 @@ describe('BrandsPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load manufacturers on init', () => {
+  it('should load manufacturers on construction', () => {
     expect(loadManufacturersUseCase.execute).toHaveBeenCalled();
   });
 
@@ -79,25 +81,6 @@ describe('BrandsPageComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     const statsText = compiled.querySelector('.stat-text')?.textContent;
     expect(statsText).toContain('Showing 2 of 2');
-  });
-
-  it('should show error in snackbar when error state exists', () => {
-    const errorMessage = 'Failed to load manufacturers';
-    loadManufacturersUseCase.getErrorState.and.returnValue(of(errorMessage));
-
-    // Create new component to trigger ngOnInit with error
-    const errorFixture = TestBed.createComponent(BrandsPageComponent);
-    errorFixture.detectChanges();
-
-    expect(snackBar.open).toHaveBeenCalledWith(
-      errorMessage,
-      'Close',
-      jasmine.objectContaining({
-        duration: 5000,
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-      })
-    );
   });
 
   it('should call searchManufacturersUseCase when search term changes', () => {

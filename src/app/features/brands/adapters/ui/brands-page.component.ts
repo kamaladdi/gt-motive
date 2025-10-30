@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   ChangeDetectionStrategy,
   signal,
   computed,
@@ -29,7 +28,7 @@ import { BrandSearchComponent } from './components/brand-search/brand-search.com
   styleUrl: './brands-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BrandsPageComponent implements OnInit {
+export class BrandsPageComponent {
   private readonly loadManufacturersUseCase = inject(LoadManufacturersUseCase);
   private readonly searchManufacturersUseCase = inject(SearchManufacturersUseCase);
   private readonly router = inject(Router);
@@ -55,16 +54,20 @@ export class BrandsPageComponent implements OnInit {
 
   protected readonly totalManufacturers = computed(() => this.manufacturers().length);
 
-  ngOnInit(): void {
+  constructor() {
+    // Load manufacturers on init
     this.loadManufacturersUseCase.execute();
 
-    if (this.error()) {
-      this.snackBar.open(this.error() || 'An error occurred', 'Close', {
-        duration: 5000,
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-      });
-    }
+    // Show errors when they occur
+    this.loadManufacturersUseCase.getErrorState().subscribe(error => {
+      if (error) {
+        this.snackBar.open(error, 'Close', {
+          duration: 5000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        });
+      }
+    });
   }
 
   protected onSearchTermChange(searchTerm: string): void {

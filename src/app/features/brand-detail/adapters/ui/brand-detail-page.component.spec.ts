@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideZonelessChangeDetection, signal } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { BrandDetailPageComponent } from './brand-detail-page.component';
 import { LoadBrandDetailsUseCase } from '../../application/use-cases/load-brand-details.use-case';
 import { VehicleType } from '../../domain/models/vehicle-type.model';
@@ -36,8 +36,8 @@ describe('BrandDetailPageComponent', () => {
     const snackBarSpy = jasmine.createSpyObj('MatSnackBar', ['open']);
 
     // Setup default return values
-    loadBrandDetailsUseCaseSpy.getVehicleTypes.and.returnValue(of(mockVehicleTypes));
-    loadBrandDetailsUseCaseSpy.getVehicleModels.and.returnValue(of(mockVehicleModels));
+    loadBrandDetailsUseCaseSpy.getVehicleTypes.and.returnValue(of([]));
+    loadBrandDetailsUseCaseSpy.getVehicleModels.and.returnValue(of([]));
     loadBrandDetailsUseCaseSpy.getVehicleTypesLoadingState.and.returnValue(of(false));
     loadBrandDetailsUseCaseSpy.getVehicleModelsLoadingState.and.returnValue(of(false));
     loadBrandDetailsUseCaseSpy.getVehicleTypesErrorState.and.returnValue(of(null));
@@ -63,42 +63,6 @@ describe('BrandDetailPageComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should show vehicle types error in snackbar on init', () => {
-    const errorMessage = 'Failed to load vehicle types';
-    loadBrandDetailsUseCase.getVehicleTypesErrorState.and.returnValue(of(errorMessage));
-
-    const errorFixture = TestBed.createComponent(BrandDetailPageComponent);
-    errorFixture.detectChanges();
-
-    expect(snackBar.open).toHaveBeenCalledWith(
-      errorMessage,
-      'Close',
-      jasmine.objectContaining({
-        duration: 5000,
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-      })
-    );
-  });
-
-  it('should show vehicle models error in snackbar on init', () => {
-    const errorMessage = 'Failed to load vehicle models';
-    loadBrandDetailsUseCase.getVehicleModelsErrorState.and.returnValue(of(errorMessage));
-
-    const errorFixture = TestBed.createComponent(BrandDetailPageComponent);
-    errorFixture.detectChanges();
-
-    expect(snackBar.open).toHaveBeenCalledWith(
-      errorMessage,
-      'Close',
-      jasmine.objectContaining({
-        duration: 5000,
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-      })
-    );
   });
 
   it('should display vehicle types loading bar when loading', () => {

@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   ChangeDetectionStrategy,
   inject,
   input,
@@ -26,7 +25,7 @@ import { ModelsListComponent } from './components/models-list/models-list.compon
   styleUrl: './brand-detail-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BrandDetailPageComponent implements OnInit {
+export class BrandDetailPageComponent {
   private readonly loadBrandDetailsUseCase = inject(LoadBrandDetailsUseCase);
   private readonly snackBar = inject(MatSnackBar);
 
@@ -62,23 +61,28 @@ export class BrandDetailPageComponent implements OnInit {
     { initialValue: null }
   );
 
-  // Load data when manufacturer name changes
   constructor() {
+    // Load data when manufacturer name changes
     effect(() => {
       const name = this.makeName();
       if (name && name.trim().length > 0) {
         this.loadBrandDetailsUseCase.execute(name);
       }
     });
-  }
 
-  ngOnInit(): void {
-    if (this.vehicleTypesError()) {
-      this.showError(this.vehicleTypesError()!);
-    }
-    if (this.vehicleModelsError()) {
-      this.showError(this.vehicleModelsError()!);
-    }
+    // Show vehicle types errors
+    this.loadBrandDetailsUseCase.getVehicleTypesErrorState().subscribe(error => {
+      if (error) {
+        this.showError(error);
+      }
+    });
+
+    // Show vehicle models errors
+    this.loadBrandDetailsUseCase.getVehicleModelsErrorState().subscribe(error => {
+      if (error) {
+        this.showError(error);
+      }
+    });
   }
 
   private showError(message: string): void {

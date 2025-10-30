@@ -1,13 +1,14 @@
+import { provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { LoadManufacturersUseCase } from './load-manufacturers.use-case';
-import { ManufacturersActions } from '../../infrastructure/store/actions/manufacturers.actions';
+import { ManufacturersActions } from '../../infrastructure/store';
 import {
   selectAllManufacturers,
   selectManufacturersLoading,
   selectManufacturersError,
   selectManufacturersLoaded,
-} from '../../infrastructure/store/selectors/manufacturers.selectors';
+} from '../../infrastructure/store';
 import { Manufacturer } from '../../domain/models/manufacturer.model';
 
 describe('LoadManufacturersUseCase', () => {
@@ -22,6 +23,7 @@ describe('LoadManufacturersUseCase', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        provideZonelessChangeDetection(),
         LoadManufacturersUseCase,
         provideMockStore({
           initialState: {},

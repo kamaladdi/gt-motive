@@ -1,3 +1,4 @@
+import { provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { SearchManufacturersUseCase } from './search-manufacturers.use-case';
@@ -17,6 +18,7 @@ describe('SearchManufacturersUseCase', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        provideZonelessChangeDetection(),
         SearchManufacturersUseCase,
         provideMockStore({
           initialState: {},
